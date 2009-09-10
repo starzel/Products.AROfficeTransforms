@@ -13,8 +13,7 @@ This version includes the following transforms :
 * PDF to html
 * Zip to Text
 
-This product is copywrite atReal 2006-2007 and
-distributed under GPL licence (see LICENCE.txt).
+This product is copywrite atReal 2006-2009 and distributed under GPL licence (see docs/LICENCE.txt).
 
 It is currently in production on GNU/Linux servers and needs the following
 binaries :

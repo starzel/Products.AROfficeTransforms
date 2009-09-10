@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.9.4 - Unreleased
+0.9.4 - 2009-09-10
 ------------------
 
-* Initial release
+* Initial release on pypi [toutpt]
 
 0.9.2
 -----
