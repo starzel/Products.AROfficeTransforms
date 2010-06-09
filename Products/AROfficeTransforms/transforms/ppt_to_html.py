@@ -3,6 +3,7 @@
 transform .ppt file to HTML
 """
 
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 
 from powerpoint_ppthtml import document
@@ -12,7 +13,7 @@ import os.path
 
 
 class ppt_to_html:
-    __implements__ = itransform
+    implements(itransform)
 
     __name__ = "ppt_to_html"
     inputs   = ("application/vnd.ms-powerpoint",)

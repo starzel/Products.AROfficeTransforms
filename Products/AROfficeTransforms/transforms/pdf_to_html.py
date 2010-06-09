@@ -2,6 +2,7 @@
 Uses the http://sf.net/projects/pdftohtml bin to do its handy work
 
 """
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 from Products.PortalTransforms.libtransforms.utils import bin_search, sansext
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
@@ -13,7 +14,7 @@ import os
 process_double_encoding = False
 
 class popen_pdf_to_html(popentransform):
-    __implements__ = itransform
+    implements(itransform)
     
     __version__ = '2004-07-02.01'
 

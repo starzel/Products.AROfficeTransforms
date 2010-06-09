@@ -4,6 +4,7 @@ transform .xls file to HTML
 depends xlhtml
 """
 
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 
 from excel_xlhtml import document
@@ -13,7 +14,7 @@ import os.path
 
 
 class excel_to_html:
-    __implements__ = itransform
+    implements(itransform)
 
     __name__ = "excel_to_html"
     inputs   = ("application/msexcel",)

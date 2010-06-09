@@ -2,13 +2,14 @@
 """
 transform zip files to Text through the zipfile library
 """
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
 import zipfile
 from string import join
 
 class zip_to_text(commandtransform):
-    __implements__ = itransform
+    implements(itransform)
 
     __name__ = "zip_to_text"
     inputs   = ("application/zip","application/x-zip-compressed")

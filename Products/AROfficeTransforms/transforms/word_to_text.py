@@ -2,12 +2,13 @@
 """
 transform .doc file to Text through WVWare
 """
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 from office_wvware_gen import document
 import os.path
 
 class word_to_text:
-    __implements__ = itransform
+    implements(itransform)
 
     __name__ = "word_to_text"
     inputs   = ("application/msword",)

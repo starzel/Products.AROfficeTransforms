@@ -2,6 +2,7 @@
 """
 transform OOo file to HTML through XSL
 """
+from zope.interface import implements
 from Products.PortalTransforms.interfaces import itransform
 from Products.PortalTransforms.libtransforms.utils \
     import sansext
@@ -13,7 +14,7 @@ XSL_STYLESHEET = os.path.join(
   os.getcwd(), os.path.dirname(__file__), 'transform_libs/sx2ml', 'main_html.xsl')
 
 class ooo_to_html(commandtransform):
-    __implements__ = itransform
+    implements(itransform)
 
     __name__ = 'ooo_to_html'
     inputs = ('application/vnd.sun.xml.writer',
