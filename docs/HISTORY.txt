@@ -1,12 +1,17 @@
 Changelog
 =========
 
-0.9.5 - Unreleased
+0.9.5 (2010-12-23)
 ------------------
 
+* Replace os.system (deprecated) by Popen 
+  [tbenita]
+
 * New style interfaces for Plone 4 compatibility
+  [hpeteragitator]
 
 * Replace print by python's logging
+  [toutpt]
 
 0.9.4 - 2009-09-10
 ------------------

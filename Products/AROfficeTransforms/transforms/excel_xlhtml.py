@@ -10,6 +10,7 @@ from transform_libs.double_encoded import noDoubleEncoding
 from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
+from subprocess import Popen
 
 #some binary transforms add a signature arbitrary encoded in non utf-8 charset... 
 #Therefore process_double_encoding returns pure utf-8 result.
@@ -47,10 +48,12 @@ class document(commandtransform):
                                                              mimeextmap[self.outmime],)
 
         if os.name == 'posix':
-            os.system('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
+            p = Popen('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
                                                              self.fullname,
                                                              self.__name__,
-                                                             mimeextmap[self.outmime],))
+                                                             mimeextmap[self.outmime],),
+                  shell = True)
+            sts = os.waitpid(p.pid, 0)
 
     def _html(self):
         try:

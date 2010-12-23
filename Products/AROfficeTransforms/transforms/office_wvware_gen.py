@@ -45,13 +45,15 @@ class document(commandtransform):
         # for windows, install wvware from GnuWin32 at C:\Program Files\GnuWin32\bin
         # you can use:
         # wvware.exe -c ..\share\wv\wvHtml.xml --charset=utf-8 -d d:\temp d:\temp\test.doc > test.html
-        
+
         if os.name == 'posix':
-            os.system('cd "%s" && %s %s "%s" "%s.%s"' % (tmpdir, self.binary,
-	                                                     mimeoptmap[self.outmime],
-                                                             self.fullname,
-                                                             self.__name__,
-                                                             mimeextmap[self.outmime],))
+            p = Popen('cd "%s" && %s %s "%s" "%s.%s"' % (tmpdir, self.binary,
+                       mimeoptmap[self.outmime],
+                       self.fullname,
+                       self.__name__,
+                       mimeextmap[self.outmime],),
+                       shell = True)
+            sts = os.waitpid(p.pid, 0)
 
     def _html(self):
         htmlfile = open(pjoin(self.tmpdir, self.__name__+".html"), 'r')
@@ -59,7 +61,7 @@ class document(commandtransform):
         htmlfile.close()
         #html = scrubHTML(html)
         body = bodyfinder(html)
-	body = xmltag + body
+        body = xmltag + body
         return body
     
     def _text(self):

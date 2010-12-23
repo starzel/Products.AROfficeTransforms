@@ -6,6 +6,7 @@ core converter
 import re, tempfile
 import os, os.path
 from os.path import join as pjoin
+from subprocess import Popen
 from transform_libs.double_encoded import noDoubleEncoding
 from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
@@ -40,10 +41,13 @@ class document(commandtransform):
         tmpdir = self.tmpdir
 
         if os.name == 'posix':
-            os.system('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
+            p = Popen('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
                                                              self.fullname,
                                                              self.__name__,
-                                                             mimeextmap[self.outmime],))
+                                                             mimeextmap[self.outmime],),
+                      shell = True)
+            sts = os.waitpid(p.pid, 0)
+
 
     def _html(self):
         htmlfile = open(pjoin(self.tmpdir, self.__name__+".html"), 'r')

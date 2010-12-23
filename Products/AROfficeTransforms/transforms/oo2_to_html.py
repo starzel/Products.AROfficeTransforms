@@ -9,6 +9,7 @@ from Products.PortalTransforms.libtransforms.utils \
 from Products.PortalTransforms.libtransforms.commandtransform \
     import commandtransform
 import os
+from subprocess import Popen
 from zLOG import LOG, DEBUG, WARNING
 
 XSL_STYLESHEET = os.path.join(
@@ -54,12 +55,16 @@ class oo2_to_html(commandtransform):
         if os.name=='posix':
             cmd = 'cd "%s" && unzip "%s" 2>error_log 1>/dev/null' % (
                 tmpdir, fullname)
-            os.system(cmd)
+            p = Popen(cmd, shell = True)
+            sts = os.waitpid(p.pid, 0)
+
             cmd = ('cd "%s" && xsltproc --novalid %s content.xml >"%s.html" '
                 '2>"%s.log-xsltproc"') % (
                 tmpdir, XSL_STYLESHEET, sansext(fullname), sansext(fullname))
             LOG(self.__name__, DEBUG, "cmd = %s" % cmd)
-            os.system(cmd)
+            p = Popen(cmd, shell = True)
+            sts = os.waitpid(p.pid, 0)
+            
             try:
                 htmlfile = open(os.path.join(tmpdir, "%s.html" % sansext(fullname)),
                             'r')

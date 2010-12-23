@@ -11,6 +11,7 @@ from Products.CMFDefault.utils import bodyfinder
 from transform_libs.double_encoded import noDoubleEncoding
 from htmlutils import fixBrokenStyles
 import os
+from subprocess import Popen
 process_double_encoding = False
 
 class popen_pdf_to_html(popentransform):
@@ -70,7 +71,9 @@ class pdf_to_html(commandtransform):
         else:
             cmd = 'cd "%s" && %s %s "%s"' % (
                   tmpdir, self.binary, self.binaryArgs, fullname)
-        os.system(cmd)
+        p = Popen(cmd, shell = True)
+        sts = os.waitpid(p.pid, 0)
+
         try:
             htmlfilename = os.path.join(tmpdir, sansext(fullname) + '.html')
             htmlfile = open(htmlfilename, 'r')
