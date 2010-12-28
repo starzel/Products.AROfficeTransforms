@@ -4,7 +4,7 @@ transform .xls file to HTML
 depends xlhtml
 """
 
-from zope.interface import implements
+from Products.AROfficeTransforms.config import PLONE_VERSION
 from Products.PortalTransforms.interfaces import itransform
 
 from excel_xlhtml import document
@@ -12,9 +12,12 @@ from excel_xlhtml import document
 import os.path
 
 
-
 class excel_to_html:
-    implements(itransform)
+    if PLONE_VERSION == 4:
+        from zope.interface import implements
+        implements(itransform)
+    else:
+        __implements__ = itransform
 
     __name__ = "excel_to_html"
     inputs   = ("application/msexcel",)

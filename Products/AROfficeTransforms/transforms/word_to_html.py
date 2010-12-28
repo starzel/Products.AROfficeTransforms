@@ -1,4 +1,4 @@
-from zope.interface import implements
+from Products.AROfficeTransforms.config import PLONE_VERSION
 from Products.PortalTransforms.interfaces import itransform
 
 EXTRACT_BODY  = 1
@@ -31,7 +31,11 @@ else:
 import os.path
 
 class word_to_html:
-    implements(itransform)
+    if PLONE_VERSION == 4:
+        from zope.interface import implements
+        implements(itransform)
+    else:
+        __implements__ = itransform
 
     __name__ = "word_to_html"
     inputs   = ('application/msword',)

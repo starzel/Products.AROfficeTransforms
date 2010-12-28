@@ -7,6 +7,9 @@ Changelog
 * Merge and cleanup changelogs
   [kdeldycke]
 
+* Fix declaration of implemented interface to support both Plone 4 and Plone 3
+  [kdeldycke]
+
 0.9.6 (2010-12-23)
 ------------------
 

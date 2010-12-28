@@ -10,3 +10,10 @@ TRANSFORMS = [
   "pdf_to_html",
   "zip_to_text",
 ]
+
+try:
+    # Plone 4 and higher
+    import plone.app.upgrade
+    PLONE_VERSION = 4
+except ImportError:
+    PLONE_VERSION = 3

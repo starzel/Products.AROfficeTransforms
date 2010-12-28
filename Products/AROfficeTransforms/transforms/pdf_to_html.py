@@ -2,7 +2,7 @@
 Uses the http://sf.net/projects/pdftohtml bin to do its handy work
 
 """
-from zope.interface import implements
+from Products.AROfficeTransforms.config import PLONE_VERSION
 from Products.PortalTransforms.interfaces import itransform
 from Products.PortalTransforms.libtransforms.utils import bin_search, sansext
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
@@ -15,8 +15,12 @@ from subprocess import Popen
 process_double_encoding = False
 
 class popen_pdf_to_html(popentransform):
-    implements(itransform)
-    
+    if PLONE_VERSION == 4:
+        from zope.interface import implements
+        implements(itransform)
+    else:
+        __implements__ = itransform
+
     __version__ = '2004-07-02.01'
 
     __name__ = "pdf_to_html"
