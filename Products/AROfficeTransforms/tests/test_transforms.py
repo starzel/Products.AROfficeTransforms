@@ -40,7 +40,7 @@ class TransformTest(ATSiteTestCase):
         input.close()
         data = datastream(self.transform.name())
         res_data = self.transform.convert(orig, data, filename=filename)
-        self.assert_(idatastream.isImplementedBy(res_data))
+        self.assert_(idatastream.providedBy(res_data))
         got = res_data.getData()
         try:
             output = open(output)
@@ -58,7 +58,7 @@ class TransformTest(ATSiteTestCase):
             expected = self.normalize(expected)
             got = self.normalize(got)
         output.close()
-        
+
         self.assertEquals(got, expected,
                           '[%s]\n\n!=\n\n[%s]\n\nIN %s(%s)' % (
             got, expected, self.transform.name(), self.input))

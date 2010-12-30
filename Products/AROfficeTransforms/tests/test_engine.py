@@ -19,7 +19,13 @@ class BaseTransform:
 
 
 class HtmlToText(BaseTransform):
-    __implements__ = itransform
+    from Products.AROfficeTransforms.config import PLONE_VERSION
+    if PLONE_VERSION == 4:
+        from zope.interface import implements
+        implements(itransform)
+    else:
+        __implements__ = itransform
+
     inputs = ('text/html',)
     output = 'text/plain'
 
@@ -36,7 +42,13 @@ class HtmlToTextWithEncoding(HtmlToText):
     output_encoding = 'ascii'
 
 class FooToBar(BaseTransform):
-    __implements__ = itransform
+    from Products.AROfficeTransforms.config import PLONE_VERSION
+    if PLONE_VERSION == 4:
+        from zope.interface import implements
+        implements(itransform)
+    else:
+        __implements__ = itransform
+
     inputs = ('text/*',)
     output = 'text/plain'
 
@@ -141,9 +153,9 @@ class TestEngine(ATSiteTestCase):
         self.engine.registerTransform(HtmlToTextWithEncoding())
         data = self.engine.convertTo('text/plain', self.data, mimetype="text/html")
         self.failUnlessEqual(data.getMetadata()['mimetype'], 'text/plain')
-        # HtmlToTextWithEncoding. Now None is the right 
+        # HtmlToTextWithEncoding. Now None is the right
         #self.failUnlessEqual(data.getMetadata()['encoding'], 'ascii')
-        # XXX the new algorithm is choosing html_to_text instead of 
+        # XXX the new algorithm is choosing html_to_text instead of
         self.failUnlessEqual(data.getMetadata()['encoding'], None)
         self.failUnlessEqual(data.name(), "text/plain")
 
