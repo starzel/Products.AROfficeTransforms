@@ -5,6 +5,7 @@ transform doc file to HTML or TEXT
 import re, tempfile
 import os, os.path
 from os.path import join as pjoin
+from subprocess import Popen
 from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
@@ -63,13 +64,13 @@ class document(commandtransform):
         body = bodyfinder(html)
         body = xmltag + body
         return body
-    
+
     def _text(self):
         txtfile = open(pjoin(self.tmpdir, self.__name__+".txt"), 'r')
         text = txtfile.read()
         txtfile.close()
         return text
-    
+
     def getconverted(self):
         mimeoutmap= {
             'text/plain': self._text,

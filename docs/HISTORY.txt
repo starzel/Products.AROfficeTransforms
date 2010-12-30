@@ -4,6 +4,9 @@ Changelog
 0.9.7.dev (unreleased)
 ----------------------
 
+* Fixed wvware transform (was broken in 0.9.6)
+  [thomasdesvenain]
+
 * Plone 4 support in tests.
   [thomasdesvenain]
 
