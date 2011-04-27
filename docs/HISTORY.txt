@@ -4,6 +4,9 @@ Changelog
 0.10.0 (unreleased)
 ------------------
 
+* Replace print by python's logging
+  [f10w]
+
 * Indentation with 4 spaces in setuphandlers
   [f10w]
 

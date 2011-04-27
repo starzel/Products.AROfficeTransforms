@@ -2,6 +2,7 @@ from Products.MimetypesRegistry import MimeTypeItem
 from Products.CMFCore.utils import getToolByName
 
 from Products.AROfficeTransforms.config import TRANSFORMS
+from Products.AROfficeTransforms import logger
 
 
 def install(self):
@@ -14,20 +15,29 @@ def install(self):
     #
     transform_tool = getToolByName(self, 'portal_transforms')
     for transform in TRANSFORMS:
-        print "atReal : Adding %s transform" % transform
+        logger.info("Adding %s transform..." % transform)
         # Remove existing transform, if any
         if transform in transform_tool.objectIds():
-            transform_tool.manage_delObjects([transform])
+            logger.info("%s transform already exists" % transform)
+            logger.info("Deleting %s transform..." % transform)
+            try:
+                transform_tool.manage_delObjects([transform])
+                logger.info("%s deleted" % transform)
+            except Exception, e:
+                logger.exception(e.__class__.__name__, str(e))
         transform_tool.manage_addTransform(transform, 'Products.AROfficeTransforms.transforms.'+transform)
-        print "atReal : %s added" % transform
+        logger.info("%s added" % transform)
 
 
 def uninstall(self):
     transform_tool = getToolByName(self, 'portal_transforms')
     for transform in TRANSFORMS:
-        print "atReal : Deleting %s transform" % transform
+        logger.info("Deleting %s transform..." % transform)
         if transform in transform_tool.objectIds():
             try:
                 transform_tool.manage_delObjects([transform])
+                logger.info("%s deleted" % transform)
             except Exception, e:
-                print e.__class__.__name__, str(e)
+                logger.exception(e.__class__.__name__, str(e))
+        else:
+            logger.info("%s transform not exists" % transform)
