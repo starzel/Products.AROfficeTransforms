@@ -1,8 +1,17 @@
+.. contents::
+
+Overview
+========
+
+Products.AROfficeTransforms is a Plone module to add conversion from office
+format to HTML in portal_transforms tool
+
+
 Introduction
 ============
 
-AROfficeTransforms contain new portal_transforms.
-This version includes the following transforms :
+This packages contains new portal_transforms. This version includes the
+following transforms :
 
 * MS Excel to html
 * MS Word to html
@@ -13,8 +22,6 @@ This version includes the following transforms :
 * PDF to html
 * Zip to Text
 
-This product is copywrite atReal 2006-2009 and distributed under GPL licence (see docs/LICENCE.txt).
-
 It is currently in production on GNU/Linux servers and needs the following
 binaries :
 
@@ -24,3 +31,32 @@ binaries :
 * xsltproc
 * unzip
 * pdftohtml
+
+
+Authors
+=======
+
+|atreal|_
+
+* `atReal Team`_
+
+  - Thierry Benita [tbenita]
+  - Jean-Nicolas Bes [drjnut]
+  - Matthias Broquet [tiazma]
+  - Florent Michon [f10w]
+
+.. |atreal| image:: http://www.atreal.fr/medias/atreal-logo-48.png
+.. _atreal: http://www.atreal.fr/
+.. _atReal Team: mailto:contact@atreal.fr
+
+
+Contributors
+============
+
+* [kdeldycke]
+* [hpeteragitator]
+* Thomas Desvenain [thomasdesvenain]
+* Jean-Michel Francois [toutpt]
+* [zegor]
+*
+

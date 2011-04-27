@@ -1,23 +1,22 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.10.0dev'
+version = '0.10.0'
 
 setup(name='Products.AROfficeTransforms',
       version=version,
-      description="AROfficeTransforms contain new portal_transforms from office to html",
+      description="Plone module to add conversion from office format to HTML in portal_transforms tool",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-      keywords='',
+      keywords='plone transforms',
       author='atReal',
-      author_email='mailto:contact@atreal.net',
-      url='http://www.atreal.net/',
+      author_email='contact@atreal.fr',
+      url='http://svn.plone.org/svn/collective/Products.AROfficeTransforms/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['Products'],
@@ -29,12 +28,5 @@ setup(name='Products.AROfficeTransforms',
       ],
       entry_points="""
       # -*- Entry points: -*-
-
-      [distutils.setup_keywords]
-      paster_plugins = setuptools.dist:assert_string_list
-
-      [egg_info.writers]
-      paster_plugins.txt = setuptools.command.egg_info:write_arg
       """,
-      paster_plugins = ["ZopeSkel"],
       )

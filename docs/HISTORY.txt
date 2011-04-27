@@ -4,9 +4,11 @@ Changelog
 0.10.0 (unreleased)
 ------------------
 
+* Cleanup package-structure
+  [f10w]
+
 * Generic setup compliant install.
   [thomasdesvenain, f10w]
-
 
 0.9.7 (2011-01-04)
 -------------------
