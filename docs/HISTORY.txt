@@ -4,6 +4,9 @@ Changelog
 0.10.0 (unreleased)
 ------------------
 
+* Indentation with 4 spaces in setuphandlers
+  [f10w]
+
 * Cleanup package-structure
   [f10w]
 
