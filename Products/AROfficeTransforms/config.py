@@ -9,6 +9,7 @@ TRANSFORMS = [
   "oo2_to_html",
   "pdf_to_html",
   "zip_to_text",
+  "docx_to_html"
 ]
 
 try:
