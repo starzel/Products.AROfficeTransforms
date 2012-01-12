@@ -9,6 +9,7 @@ from subprocess import Popen
 from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
+from Products.AROfficeTransforms import logger
 
 xmltag = '<?xml version="1.0" encoding="utf-8"?>\n'
 
@@ -48,12 +49,12 @@ class document(commandtransform):
         # wvware.exe -c ..\share\wv\wvHtml.xml --charset=utf-8 -d d:\temp d:\temp\test.doc > test.html
 
         if os.name == 'posix':
-            p = Popen('cd "%s" && %s %s "%s" "%s.%s"' % (tmpdir, self.binary,
-                       mimeoptmap[self.outmime],
-                       self.fullname,
-                       self.__name__,
-                       mimeextmap[self.outmime],),
-                       shell = True)
+            command = 'cd "%s" && timeout -s 9 10 %s %s "%s" "%s.%s"' % (
+              tmpdir, self.binary, mimeoptmap[self.outmime], self.fullname,
+              self.__name__, mimeextmap[self.outmime],)
+            logger.info(command)
+            p = Popen(command,
+                      shell=True)
             sts = os.waitpid(p.pid, 0)
 
     def _html(self):

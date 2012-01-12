@@ -42,17 +42,12 @@ class document(commandtransform):
         "Convert the document"
         tmpdir = self.tmpdir
 
-        print 'cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
-                                                             self.fullname,
-                                                             self.__name__,
-                                                             mimeextmap[self.outmime],)
+        command = 'cd "%s" && timeout -s 9 10 %s "%s" > "%s.%s"' % (
+            tmpdir, self.binary, self.fullname, 
+            self.__name__, mimeextmap[self.outmime],)
 
         if os.name == 'posix':
-            p = Popen('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
-                                                             self.fullname,
-                                                             self.__name__,
-                                                             mimeextmap[self.outmime],),
-                  shell = True)
+            p = Popen(command, shell = True)
             sts = os.waitpid(p.pid, 0)
 
     def _html(self):
