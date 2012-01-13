@@ -12,7 +12,7 @@ from Products.PortalTransforms.libtransforms.utils import bin_search, \
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
 from subprocess import Popen
 
-#some binary transforms add a signature arbitrary encoded in non utf-8 charset... 
+#some binary transforms add a signature arbitrary encoded in non utf-8 charset...
 #Therefore process_double_encoding returns pure utf-8 result.
 process_double_encoding = True
 
@@ -42,8 +42,8 @@ class document(commandtransform):
         "Convert the document"
         tmpdir = self.tmpdir
 
-        command = 'cd "%s" && timeout -s 9 10 %s "%s" > "%s.%s"' % (
-            tmpdir, self.binary, self.fullname, 
+        command = 'cd "%s" && timelimit -t120 -T10 %s "%s" > "%s.%s"' % (
+            tmpdir, self.binary, self.fullname,
             self.__name__, mimeextmap[self.outmime],)
 
         if os.name == 'posix':
@@ -63,7 +63,7 @@ class document(commandtransform):
         #html = scrubHTML(html)
         body = bodyfinder(html)
         return body
-    
+
     def _text(self):
         try:
             txtfile = open(pjoin(self.tmpdir, self.__name__+".txt"), 'r')
@@ -72,7 +72,7 @@ class document(commandtransform):
             return ""
         txtfile.close()
         return text
-    
+
     def getconverted(self):
         mimeoutmap= {
             'text/plain': self._text,

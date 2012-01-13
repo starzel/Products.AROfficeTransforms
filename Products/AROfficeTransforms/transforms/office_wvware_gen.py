@@ -49,7 +49,7 @@ class document(commandtransform):
         # wvware.exe -c ..\share\wv\wvHtml.xml --charset=utf-8 -d d:\temp d:\temp\test.doc > test.html
 
         if os.name == 'posix':
-            command = 'cd "%s" && timeout -s 9 10 %s %s "%s" "%s.%s"' % (
+            command = 'cd "%s" && timelimit -t120 -T10 %s %s "%s" "%s.%s"' % (
               tmpdir, self.binary, mimeoptmap[self.outmime], self.fullname,
               self.__name__, mimeextmap[self.outmime],)
             logger.info(command)
