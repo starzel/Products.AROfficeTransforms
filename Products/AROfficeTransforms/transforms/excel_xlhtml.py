@@ -55,7 +55,7 @@ class document(commandtransform):
             self.__name__, mimeextmap[self.outmime],)
 
         if os.name == 'posix':
-            logger(command)
+            logger.info(command)
             p = Popen(command, shell = True)
             sts = os.waitpid(p.pid, 0)
 
