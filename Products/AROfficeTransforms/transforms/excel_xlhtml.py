@@ -12,6 +12,9 @@ from Products.PortalTransforms.libtransforms.utils import bin_search, \
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
 from subprocess import Popen
 
+from Products.AROfficeTransforms import logger
+from Products.AROfficeTransforms.transforms import utils
+
 #some binary transforms add a signature arbitrary encoded in non utf-8 charset...
 #Therefore process_double_encoding returns pure utf-8 result.
 process_double_encoding = True
@@ -36,17 +39,23 @@ class document(commandtransform):
         name = self.name()
         if not name.endswith('.xls'):
             name = name + ".xls"
+
         self.tmpdir, self.fullname = self.initialize_tmpdir(data, filename=name)
 
     def convert(self):
         "Convert the document"
         tmpdir = self.tmpdir
+        if utils.command_exists('timelimit'):
+            timelimit = "timelimit -t120 -T10"
+        else:
+            timelimit = ""
 
-        command = 'cd "%s" && timelimit -t120 -T10 %s "%s" > "%s.%s"' % (
-            tmpdir, self.binary, self.fullname,
+        command = 'cd "%s" && %s %s "%s" > "%s.%s"' % (
+            tmpdir, timelimit, self.binary, self.fullname,
             self.__name__, mimeextmap[self.outmime],)
 
         if os.name == 'posix':
+            logger(command)
             p = Popen(command, shell = True)
             sts = os.waitpid(p.pid, 0)
 
@@ -56,8 +65,10 @@ class document(commandtransform):
             html = htmlfile.read()
         except IOError:
             return ""
+
         if process_double_encoding :
             html = noDoubleEncoding(html)
+
         htmlfile.close()
         #xlhtml gives verry complex html ; scrubHTML takes soooo long !
         #html = scrubHTML(html)

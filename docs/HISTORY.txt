@@ -4,8 +4,9 @@ Changelog
 0.10.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- If timelimit command is installed on the system,
+  we use it to ensure wv and xlhtml commands do not loop.
+  [thomasdesvenain]
 
 0.10.0 (2011-04-27)
 -------------------
