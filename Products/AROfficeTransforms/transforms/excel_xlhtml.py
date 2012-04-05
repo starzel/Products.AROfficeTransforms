@@ -12,7 +12,10 @@ from Products.PortalTransforms.libtransforms.utils import bin_search, \
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
 from subprocess import Popen
 
-#some binary transforms add a signature arbitrary encoded in non utf-8 charset... 
+from Products.AROfficeTransforms import logger
+from Products.AROfficeTransforms.transforms import utils
+
+#some binary transforms add a signature arbitrary encoded in non utf-8 charset...
 #Therefore process_double_encoding returns pure utf-8 result.
 process_double_encoding = True
 
@@ -41,18 +44,15 @@ class document(commandtransform):
     def convert(self):
         "Convert the document"
         tmpdir = self.tmpdir
+        timelimit = utils.timelimit()
 
-        print 'cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
-                                                             self.fullname,
-                                                             self.__name__,
-                                                             mimeextmap[self.outmime],)
+        command = 'cd "%s" && %s %s "%s" > "%s.%s"' % (
+            tmpdir, timelimit, self.binary, self.fullname,
+            self.__name__, mimeextmap[self.outmime],)
 
         if os.name == 'posix':
-            p = Popen('cd "%s" && %s "%s" > "%s.%s"' % (tmpdir, self.binary,
-                                                             self.fullname,
-                                                             self.__name__,
-                                                             mimeextmap[self.outmime],),
-                  shell = True)
+            logger.info(command)
+            p = Popen(command, shell = True)
             sts = os.waitpid(p.pid, 0)
 
     def _html(self):

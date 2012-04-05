@@ -10,6 +10,9 @@ from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
 
+from Products.AROfficeTransforms import logger
+from Products.AROfficeTransforms.transforms import utils
+
 xmltag = '<?xml version="1.0" encoding="utf-8"?>\n'
 
 mimecmdmap = {
@@ -46,14 +49,15 @@ class document(commandtransform):
         # for windows, install wvware from GnuWin32 at C:\Program Files\GnuWin32\bin
         # you can use:
         # wvware.exe -c ..\share\wv\wvHtml.xml --charset=utf-8 -d d:\temp d:\temp\test.doc > test.html
+        timelimit = utils.timelimit()
 
         if os.name == 'posix':
-            p = Popen('cd "%s" && %s %s "%s" "%s.%s"' % (tmpdir, self.binary,
-                       mimeoptmap[self.outmime],
-                       self.fullname,
-                       self.__name__,
-                       mimeextmap[self.outmime],),
-                       shell = True)
+            command = 'cd "%s" && %s %s %s "%s" "%s.%s"' % (
+              tmpdir, timelimit, self.binary, mimeoptmap[self.outmime], self.fullname,
+              self.__name__, mimeextmap[self.outmime],)
+            logger.info(command)
+            p = Popen(command,
+                      shell=True)
             sts = os.waitpid(p.pid, 0)
 
     def _html(self):

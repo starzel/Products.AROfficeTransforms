@@ -31,7 +31,18 @@ binaries :
 * xsltproc
 * unzip
 * pdftohtml
+* elinks | links | lynx
 
+
+Time-consuming binaries
+=======================
+
+Sometimes, with .doc or .xls document, matching binaries happen to freeze or 
+take to much time.
+If the *timelimit* command is available in your system, this issue will be 
+avoid. You can change the time-out value by setting your own WARNTIME and 
+KILLTIME in the config.py file (defaults are 120 sec. and 10 sec.).
+Thx to Thomas [thomasdesvenain] for this feature.
 
 Authors
 =======
