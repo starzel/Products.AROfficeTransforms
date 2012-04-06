@@ -61,9 +61,13 @@ class document(commandtransform):
             html = htmlfile.read()
         except IOError:
             return ""
-        if process_double_encoding :
-            html = noDoubleEncoding(html)
         htmlfile.close()
+        if process_double_encoding :
+            # This operation can be very memory-consuming ...
+            try:
+                html = noDoubleEncoding(html)
+            except MemoryError:
+                return ""
         #xlhtml gives verry complex html ; scrubHTML takes soooo long !
         #html = scrubHTML(html)
         body = bodyfinder(html)
