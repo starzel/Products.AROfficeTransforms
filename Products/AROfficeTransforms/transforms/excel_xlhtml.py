@@ -61,18 +61,32 @@ class document(commandtransform):
             html = htmlfile.read()
         except IOError:
             return ""
+
         htmlfile.close()
+        # empty lines are rendered in a very verbose way
+        # and empty lines (event without style information) are rendered at
+        # the end of stylesheets
+        # it is very bad in a matter of display and in a matter of performances
+
+        # we get too complicated code for empty cells
+        html = html.replace('<TD>&nbsp;</TD>\n', '<TD/>')
+        # remove cells in empty lines if they have no value or style information
+        html = re.sub('<TR>(<TD/>)*</TR>', '<TR/>', html)
+        # remove empty lines at the end of tables (stylesheets)
+        re.sub('(<TR/>[\n]*)*</TABLE>', '</TABLE>', html)
+
         if process_double_encoding :
             # This operation can be very memory-consuming ...
             try:
                 html = noDoubleEncoding(html)
             except MemoryError:
                 return ""
+
         #xlhtml gives verry complex html ; scrubHTML takes soooo long !
         #html = scrubHTML(html)
         body = bodyfinder(html)
         return body
-    
+
     def _text(self):
         try:
             txtfile = open(pjoin(self.tmpdir, self.__name__+".txt"), 'r')
@@ -81,10 +95,14 @@ class document(commandtransform):
             return ""
         txtfile.close()
         return text
-    
+
     def getconverted(self):
         mimeoutmap= {
             'text/plain': self._text,
             'text/html':  self._html,
         }
-        return mimeoutmap[self.outmime]()
+        from time import time
+        now = time()
+        out = mimeoutmap[self.outmime]()
+        print time() - now
+        return out

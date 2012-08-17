@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.12.0 (Unreleased)
+-------------------
+
+* Optimized big xls to html file transform.
+  Remove empty lines at the bottom of stylesheets.
+  Remove cells of empty lines.
+  [thomasdesvenain]
+
+
 0.11.0 (2011-08-17)
 -------------------
 
