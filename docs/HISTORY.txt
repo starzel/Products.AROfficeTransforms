@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.11.0 (unreleased)
+0.11.0 (2011-08-17)
 -------------------
 
 * If timelimit command is installed on the system,
