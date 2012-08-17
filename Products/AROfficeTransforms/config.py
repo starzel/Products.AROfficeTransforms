@@ -1,4 +1,4 @@
-PROJECTNAME='AROfficeTransforms'
+PROJECTNAME = 'AROfficeTransforms'
 
 TRANSFORMS = [
     "word_to_text",
@@ -12,10 +12,9 @@ TRANSFORMS = [
 ]
 
 TIMEOUT = {
-    'WARNTIME':120,
-    'KILLTIME':10,
+    'WARNTIME': 120,
+    'KILLTIME': 10,
 }
-    
 
 try:
     # Plone 4 and higher

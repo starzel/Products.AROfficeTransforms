@@ -30,17 +30,18 @@ mimeextmap = {
     'text/html': "html",
 }
 
+
 class document(commandtransform):
 
     def __init__(self, name, data, outmime):
         """ Initialization: create tmp work directory and copy the
         document into a file"""
-        self.outmime=outmime
+        self.outmime = outmime
         commandtransform.__init__(self, name, binary=mimecmdmap[outmime])
         name = self.name()
         if not name.endswith('.doc'):
             name = name + ".doc"
-        self.tmpdir, self.fullname = self.initialize_tmpdir(data, filename=name)
+        self.tmpdir, self.fullname = self.initialize_tmpdir(data, filename = name)
 
     def convert(self):
         "Convert the document"
