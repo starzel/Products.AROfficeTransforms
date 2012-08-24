@@ -101,8 +101,4 @@ class document(commandtransform):
             'text/plain': self._text,
             'text/html':  self._html,
         }
-        from time import time
-        now = time()
-        out = mimeoutmap[self.outmime]()
-        print time() - now
-        return out
+        return mimeoutmap[self.outmime]()
