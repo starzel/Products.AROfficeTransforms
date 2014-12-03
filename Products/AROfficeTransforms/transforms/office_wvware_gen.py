@@ -62,7 +62,11 @@ class document(commandtransform):
             sts = os.waitpid(p.pid, 0)
 
     def _html(self):
-        htmlfile = open(pjoin(self.tmpdir, self.__name__+".html"), 'r')
+        filename = pjoin(self.tmpdir, self.__name__+".html")
+        if not os.path.exists(filename):
+            return ""
+
+        htmlfile = open(filename, 'r')
         html = htmlfile.read()
         htmlfile.close()
         #html = scrubHTML(html)
@@ -71,7 +75,11 @@ class document(commandtransform):
         return body
 
     def _text(self):
-        txtfile = open(pjoin(self.tmpdir, self.__name__+".txt"), 'r')
+        filename = pjoin(self.tmpdir, self.__name__+".txt")
+        if not os.path.exists(filename):
+            return ""
+
+        txtfile = open(filename, 'r')
         text = txtfile.read()
         txtfile.close()
         return text
