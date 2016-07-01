@@ -10,7 +10,7 @@ from transform_libs.double_encoded import noDoubleEncoding
 from Products.PortalTransforms.libtransforms.utils import bin_search, \
      sansext, bodyfinder, scrubHTML
 from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
-from subprocess import Popen
+import subprocess
 
 from Products.AROfficeTransforms import logger
 from Products.AROfficeTransforms.transforms import utils
@@ -52,8 +52,17 @@ class document(commandtransform):
 
         if os.name == 'posix':
             logger.info(command)
-            p = Popen(command, shell = True)
-            sts = os.waitpid(p.pid, 0)
+            process = subprocess.Popen(command,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            shell = True)
+            sts = os.waitpid(process.pid, 0)
+            (out, error) = process.communicate()
+            if error.find('timelimit: sending warning signal') != -1:
+                logger.error(command)
+            else:
+                pass
+
 
     def _html(self):
         try:

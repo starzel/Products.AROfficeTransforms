@@ -12,7 +12,7 @@ TRANSFORMS = [
 ]
 
 TIMEOUT = {
-    'WARNTIME': 120,
+    'WARNTIME': 10,
     'KILLTIME': 10,
 }
 
