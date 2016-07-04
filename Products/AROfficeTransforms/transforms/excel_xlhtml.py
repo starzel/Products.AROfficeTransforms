@@ -80,8 +80,8 @@ class document(commandtransform):
                 return ""
         # xlhtml gives verry complex html ; scrubHTML takes soooo long !
         # html = scrubHTML(html)
-        return body
         body = bodyfinder(html)
+        return body
 
     def _text(self):
         try:
