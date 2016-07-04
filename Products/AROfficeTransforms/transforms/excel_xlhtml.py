@@ -3,20 +3,19 @@
 transform .xls file to HTML
 uses xlhtml
 """
-import re, tempfile
-import os, os.path
+import os
+import subprocess
 from os.path import join as pjoin
 from transform_libs.double_encoded import noDoubleEncoding
-from Products.PortalTransforms.libtransforms.utils import bin_search, \
-     sansext, bodyfinder, scrubHTML
-from Products.PortalTransforms.libtransforms.commandtransform import commandtransform
-import subprocess
+from Products.PortalTransforms.libtransforms.commandtransform import commandtransform  # noqa
+from Products.PortalTransforms.libtransforms.utils import bodyfinder
 
 from Products.AROfficeTransforms import logger
 from Products.AROfficeTransforms.transforms import utils
 
-#some binary transforms add a signature arbitrary encoded in non utf-8 charset...
-#Therefore process_double_encoding returns pure utf-8 result.
+# Some binary transforms add a signature arbitrary encoded in non utf-8
+# charset...
+# Therefore process_double_encoding returns pure utf-8 result.
 process_double_encoding = True
 
 mimecmdmap = {
@@ -29,17 +28,19 @@ mimeextmap = {
     'text/html': "html",
 }
 
+
 class document(commandtransform):
 
     def __init__(self, name, data, outmime):
         """ Initialization: create tmp work directory and copy the
         document into a file"""
-        self.outmime=outmime
+        self.outmime = outmime
         commandtransform.__init__(self, name, binary=mimecmdmap[outmime])
         name = self.name()
         if not name.endswith('.xls'):
             name = name + ".xls"
-        self.tmpdir, self.fullname = self.initialize_tmpdir(data, filename=name)
+        self.tmpdir, self.fullname = self.initialize_tmpdir(
+            data, filename=name)
 
     def convert(self):
         "Convert the document"
@@ -52,17 +53,17 @@ class document(commandtransform):
 
         if os.name == 'posix':
             logger.info(command)
-            process = subprocess.Popen(command,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE,
-                            shell = True)
-            sts = os.waitpid(process.pid, 0)
+            process = subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=True)
+            os.waitpid(process.pid, 0)
             (out, error) = process.communicate()
             if error.find('timelimit: sending warning signal') != -1:
-                logger.error(command)
+                logger.error('Error transforming xls: {0}'.format(command))
             else:
                 pass
-
 
     def _html(self):
         try:
@@ -71,17 +72,17 @@ class document(commandtransform):
         except IOError:
             return ""
         htmlfile.close()
-        if process_double_encoding :
+        if process_double_encoding:
             # This operation can be very memory-consuming ...
             try:
                 html = noDoubleEncoding(html)
             except MemoryError:
                 return ""
-        #xlhtml gives verry complex html ; scrubHTML takes soooo long !
-        #html = scrubHTML(html)
-        body = bodyfinder(html)
+        # xlhtml gives verry complex html ; scrubHTML takes soooo long !
+        # html = scrubHTML(html)
         return body
-    
+        body = bodyfinder(html)
+
     def _text(self):
         try:
             txtfile = open(pjoin(self.tmpdir, self.__name__+".txt"), 'r')
@@ -90,9 +91,9 @@ class document(commandtransform):
             return ""
         txtfile.close()
         return text
-    
+
     def getconverted(self):
-        mimeoutmap= {
+        mimeoutmap = {
             'text/plain': self._text,
             'text/html':  self._html,
         }
